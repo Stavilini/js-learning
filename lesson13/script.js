@@ -186,8 +186,14 @@ let addData = {
         resetBtn.style = 'display:block'
     },
     resetCancel: function() {
-        addData.budget.value = null;
-
+        let elems = document.querySelectorAll('input');
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].value = null;
+            elems[i].removeAttribute('disabled');
+        }
+        periodSelect.value = 1;
+        start.style = 'display:block';
+        resetBtn.style = 'display:none';
     }
 };
 salaryAmount.addEventListener('input', addData.blockBtn);
