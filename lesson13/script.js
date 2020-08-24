@@ -70,9 +70,9 @@ let addData = {
             let itemExpenses = item.querySelector('.expenses-title').value;
             let cashExpenses = item.querySelector('.expenses-amount').value;
             if (itemExpenses !== '' && cashExpenses !== '') {
-                addData.expenses[itemExpenses] = +cashExpenses;
+                this.expenses[itemExpenses] = +cashExpenses;
             }
-        });
+        }, this);
     },
     showResult: function() {
         budgetMonthValue.value = this.budgetMonth;
@@ -129,9 +129,9 @@ let addData = {
         additionalIncomeItem.forEach(function(item) {
             let itemValue = item.value.trim();
             if (itemValue !== '') {
-                addData.addIncome.push(itemValue);
+                this.addIncome.push(itemValue);
             }
-        })
+        }, this)
     },
     getExpensesMonth: function() {
         let expensesSum = 0;
@@ -157,7 +157,6 @@ let addData = {
         return targetAmount.value / this.budgetMonth;
     },
     getInfoDeposit: function() {
-        console.log(this);
         if (this.deposit) {
             do {
                 this.depositPercent = prompt('Годовой процент?', 10)
