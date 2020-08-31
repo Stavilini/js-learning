@@ -194,10 +194,10 @@ class AppData {
         if (salaryAmount.value !== '') {
             const percentDeposit = +this.value;
             let blockBtn;
-            if (percentDeposit > 100 || percentDeposit < -1 || !isNumber(percentDeposit)) {
+            if (percentDeposit > 100 || percentDeposit < 1 || !isNumber(percentDeposit)) {
                 alert('Ошибка, введите значение от 0 до 100 в поле "процент"');
                 blockBtn = document.querySelector('#start').setAttribute('disabled', 'true');
-            } else if (percentDeposit < 100 && percentDeposit >= 0) {
+            } else if (percentDeposit <= 100 && percentDeposit >= 1) {
                 blockBtn = document.querySelector('#start').removeAttribute('disabled');
             }
         }
