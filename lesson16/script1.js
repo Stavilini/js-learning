@@ -5,7 +5,10 @@ let isNumber = function(input) {
 let startId = document.querySelector('#start'),
     blockStart = document.querySelector('#start').setAttribute('disabled', 'true'),
     incomeItem = document.querySelectorAll('.income-items'),
-    expensesItems = document.querySelectorAll('.expenses-items');
+    expensesItems = document.querySelectorAll('.expenses-items'),
+    depositPercent = document.querySelector('.deposit-percent'),
+    depositBank = document.querySelector('.deposit-bank'),
+    depositAmount = document.querySelector('.deposit-amount');
 
 const salaryAmount = document.querySelector('.salary-amount'), //месячный доход
     incomeTitle = document.querySelector('.income-title'), // дополнительный доход
@@ -26,10 +29,9 @@ const salaryAmount = document.querySelector('.salary-amount'), //месячны�
     targetMonthValue = document.querySelector('.target_month-value'), // срок достижения в месяцах
     periodAmount = document.querySelector('.period-amount'),
     start = document.getElementById('start'), // Кнопка "рассчитать"
-    resetBtn = document.querySelector('#cancel'),
-    depositBank = document.querySelector('.deposit-bank'),
-    depositAmount = document.querySelector('.deposit-amount'),
-    depositPercent = document.querySelector('.deposit-percent');
+    resetBtn = document.querySelector('#cancel');
+
+
 class AppData {
     constructor() {
         this.budget = 0;
@@ -184,23 +186,21 @@ class AppData {
         const valueSelect = this.value;
         if (valueSelect === 'other') {
             depositPercent.style.display = 'inline-block';
-            this.percentDeposit = depositPercent.value;
+            depositPercent.value = '';
         } else {
             depositPercent.style.display = 'none';
             depositPercent.value = valueSelect;
         }
     };
     userPercent() {
-        if (salaryAmount.value !== '') {
-            const percentDeposit = +this.value;
-            let blockBtn;
-            if (percentDeposit > 100 || percentDeposit < 1 || !isNumber(percentDeposit)) {
-                alert('Ошибка, введите значение от 0 до 100 в поле "процент"');
-                blockBtn = document.querySelector('#start').setAttribute('disabled', 'true');
-            } else if (percentDeposit <= 100 && percentDeposit >= 1) {
-                blockBtn = document.querySelector('#start').removeAttribute('disabled');
-            }
-        }
+        let blockBtn;
+        if (!isNumber(depositPercent.value) || depositPercent.value <= 0 || depositPercent.value > 100) {
+            alert('Ошибка, введите значение от 0 до 100 в поле "процент"');
+            depositPercent.value = '';
+            blockBtn = document.querySelector('#start').setAttribute('disabled', 'true');
+        } else {
+            blockBtn = document.querySelector('#start').removeAttribute('disabled');
+        };
     };
     depositHandler() {
         if (depositCheck.checked) {
