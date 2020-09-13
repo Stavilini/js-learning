@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         updateClock();
     }
-    countTimer('7  september 2020');
+    countTimer('15  september 2020');
 
     //menu open & close
     const toggleMenu = () => {
@@ -168,7 +168,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         };
-        const startSlide = (time = 1000) => {
+        const startSlide = (time = 4500) => {
             interval = setInterval(autoPlaySlide, time);
         };
         const stopSlide = () => {
@@ -246,9 +246,132 @@ window.addEventListener('DOMContentLoaded', () => {
         let calcInput = calcBlock.querySelectorAll('input');
         calcInput.forEach((item) => {
             item.addEventListener('input', (event) => {
-                event.target.value = event.target.value.replace(/\W/g, '')
+                event.target.value = event.target.value.replace(/\D/g, '');
             })
         })
     }
     inputFilter();
+
+    //calc 
+    const calc = (price) => {
+        const calcBlock = document.querySelector('.calc-block'),
+            calcType = document.querySelector('.calc-type'),
+            calcArea = document.querySelector('.calc-square'),
+            calcCount = document.querySelector('.calc-count'),
+            calcLimitation = document.querySelector('.calc-day'),
+            totalValue = document.getElementById('total');
+
+        const countSum = () => {
+            let total = 0;
+            const typeValue = calcType.options[calcType.selectedIndex].value;
+            let AreaValue = +calcArea.value;
+            let countValue = 1;
+            let dayValue = 1;
+
+            if (calcCount.value > 1) {
+                countValue += (calcCount.value - 1) / 10;
+            }
+
+            if (calcLimitation.value && calcLimitation.value <= 5) {
+                console.log(total);
+                dayValue *= 2;
+            } else if (calcLimitation.value && calcLimitation.value > 5 && calcLimitation.value <= 10) {
+                dayValue *= 1.5;
+            }
+
+            if (typeValue && AreaValue) {
+                total = price * typeValue * AreaValue * countValue * dayValue;
+            }
+
+
+            totalValue.textContent = total;
+        }
+
+        calcBlock.addEventListener('change', (event) => {
+            const target = event.target;
+            if (target.matches('select') || target.matches('input')) {
+                countSum();
+            }
+        });
+    };
+    calc(100);
+
+    //send-ajax-form
+    const sendForm = () => {
+        const errorMessage = 'Что-то пошло не так...',
+            loadMessage = 'Загрузка',
+            successMessage = 'Спасибо! Мы скоро с вами свяжемся';
+
+        const allForm = document.querySelectorAll('form');
+        allForm.forEach((form) => {
+            const statusMessage = document.createElement('div');
+            statusMessage.style.cssText = 'font-size: 2rem;';
+            statusMessage.style.color = '#fff';
+
+
+            const formPhone = form.querySelector('.form-phone');
+            formPhone.addEventListener('input', () => {
+                formPhone.value = formPhone.value.replace(/[^0-9+]/, '');
+            });
+
+            const formEmail = form.querySelector('.form-email');
+            formEmail.addEventListener('input', () => {
+                formEmail.value = formEmail.value.replace(/[^a-z+]/, '');
+            })
+
+
+            const formName = form.querySelector('input[name="user_name"]');
+            formName.addEventListener('input', () => {
+                formName.value = formName.value.replace(/[^ а-яё]/ig, '');
+            });
+
+            const mess = document.querySelector('.mess');
+            mess.addEventListener('input', () => {
+                mess.value = mess.value.replace(/[^ а-яё]/ig, '');
+            });
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                form.appendChild(statusMessage);
+                statusMessage.textContent = loadMessage;
+                const formData = new FormData(form);
+                let body = {};
+                formData.forEach((value, key) => {
+                    body[key] = value;
+                });
+                postData(body, () => {
+                        statusMessage.textContent = successMessage;
+                        const inputForm = form.querySelectorAll('input');
+                        inputForm.forEach(elem => {
+                            elem.value = '';
+                        });
+                    },
+                    (error) => {
+                        statusMessage.textContent = errorMessage;
+                        console.error();
+                    });
+            });
+
+            const postData = (body, outputdata, errorData) => {
+                const request = new XMLHttpRequest();
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState !== 4) {
+                        return;
+                    }
+                    if (request.status === 200) {
+                        outputdata();
+                    } else {
+                        errorData(request.status);
+                    }
+                });
+
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+
+                request.send(JSON.stringify(body));
+            };
+        });
+
+    };
+    sendForm();
+
 });
