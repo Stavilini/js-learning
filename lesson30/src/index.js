@@ -1,6 +1,5 @@
 'use strict';
 
-import 'nodelist - foreach - polyfil';
 import '@babel/polyfill';
 
 import calc from './modules/calc';
