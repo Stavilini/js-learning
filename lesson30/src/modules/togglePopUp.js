@@ -14,7 +14,7 @@ const togglePopup = () => {
 
             if (document.documentElement.clientWidth > 768) {
 
-                popUpContent.style.left = count * 4 + 'px';
+                popUpContent.style.left = count * 0.25 + '%';
 
                 if (count < 142.5) {
 
