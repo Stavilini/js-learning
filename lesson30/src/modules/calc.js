@@ -15,7 +15,6 @@ const calc = (price) => {
             countValue += (calcCount.value - 1) / 10;
         }
         if (calcLimitation.value && calcLimitation.value <= 5) {
-            console.log(total);
             dayValue *= 2;
         } else if (calcLimitation.value && calcLimitation.value > 5 && calcLimitation.value <= 10) {
             dayValue *= 1.5;

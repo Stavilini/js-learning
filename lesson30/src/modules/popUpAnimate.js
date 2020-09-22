@@ -15,11 +15,7 @@ const popUp = () => {
             }
         }
     }
-    const togglePopUp = () => {
-        for (let i = 0; i < popupBtn.length; i++) {
-            popupBtn[i].addEventListener('click', popUpAnimate)
-        }
-    };
+
     popUp.addEventListener('click', (event) => {
         let target = event.target;
         if (target.classList.contains('popup-close')) {

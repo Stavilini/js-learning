@@ -11,6 +11,7 @@ import sendForm from './modules/sendForm';
 import slider from './modules/slider';
 import tabs from './modules/tabs';
 import toggleMenu from './modules/toggleMenu';
+import togglePopUp from './modules/togglePopUp';
 
 
 
@@ -38,3 +39,5 @@ calc(100);
 //send-ajax-form
 
 sendForm();
+
+togglePopUp();

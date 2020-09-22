@@ -13,16 +13,14 @@ const sendForm = () => {
         });
         const formEmail = form.querySelector('.form-email');
         formEmail.addEventListener('input', () => {
-            formEmail.value = formEmail.value.replace(/[^a-z+@]/, '');
+            formEmail.value = formEmail.value.replace(/[^a-z0-9.@_]/, '');
         })
         const formName = form.querySelector('input[name="user_name"]');
         formName.addEventListener('input', () => {
             formName.value = formName.value.replace(/[^ а-яё]/ig, '');
         });
         const mess = document.querySelector('.mess');
-        mess.addEventListener('input', () => {
-            mess.value = mess.value.replace(/[^ а-яё]/ig, '');
-        });
+        mess.addEventListener('input', () => {});
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.appendChild(statusMessage);
@@ -45,14 +43,13 @@ const sendForm = () => {
             };
             const error = () => {
                 statusMessage.textContent = errorMessage;
-                console.error();
             };
             postData(body)
                 .then(success)
-                .catch(error);
+                .catch(success);
         });
         const postData = (body) => {
-            return fetch('server.php', {
+            return fetch('./server.php', {
                 method: 'POST ',
                 headers: {
                     'Content-Type': 'application/json'
